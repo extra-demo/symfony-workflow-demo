@@ -1,2 +1,37 @@
+# app/config/config.yml
 framework:
-    workflows: ~
+  workflows:
+    pull_request:
+      type: 'state_machine'
+      supports:
+        - App\Entity\PullRequest
+      initial_place: start
+      places:
+        - start
+        - coding
+        - travis
+        - review
+        - merged
+        - closed
+      transitions:
+        submit:
+          from: start
+          to: travis
+        update:
+          from: [coding, travis, review]
+          to: travis
+        wait_for_review:
+          from: travis
+          to: review
+        request_change:
+          from: review
+          to: coding
+        accept:
+          from: review
+          to: merged
+        reject:
+          from: review
+          to: closed
+        reopen:
+          from: closed
+          to: review
