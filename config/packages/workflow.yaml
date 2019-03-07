@@ -1,37 +1,28 @@
-# app/config/config.yml
 framework:
   workflows:
-    pull_request:
-      type: 'state_machine'
+    blog_publishing:
+      type: 'workflow' # or 'state_machine'
+      audit_trail:
+        enabled: true
+      marking_store:
+        type: 'multiple_state' # or 'single_state'
+        arguments:
+          - 'currentPlace'
       supports:
-        - App\Entity\PullRequest
-      initial_place: start
+        - App\Entity\Post
+      initial_place: draft
       places:
-        - start
-        - coding
-        - travis
+        - draft
         - review
-        - merged
-        - closed
+        - rejected
+        - published
       transitions:
-        submit:
-          from: start
-          to: travis
-        update:
-          from: [coding, travis, review]
-          to: travis
-        wait_for_review:
-          from: travis
-          to: review
-        request_change:
+        to_review:
+          from: draft
+          to:   review
+        publish:
           from: review
-          to: coding
-        accept:
-          from: review
-          to: merged
+          to:   published
         reject:
           from: review
-          to: closed
-        reopen:
-          from: closed
-          to: review
+          to:   rejected

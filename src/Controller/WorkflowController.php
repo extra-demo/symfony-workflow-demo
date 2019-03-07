@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Repository\PullRequestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WorkflowController extends AbstractController
@@ -39,6 +38,9 @@ class WorkflowController extends AbstractController
      */
     public function incr()
     {
+        dd(
+            $stateMachine = $this->container->has('workflow.registry')
+        );
         return JsonResponse::create($this->pullRequestRepository->findAll());
     }
 }
