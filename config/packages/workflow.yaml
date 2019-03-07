@@ -5,7 +5,7 @@ framework:
       audit_trail:
         enabled: true
       marking_store:
-        type: 'multiple_state' # or 'single_state'
+        type: 'single_state' # or 'multiple_state'
         arguments:
           - 'currentPlace'
       supports:

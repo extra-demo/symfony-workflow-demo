@@ -2,25 +2,19 @@
 
 namespace App\Controller;
 
-use App\Repository\PullRequestRepository;
+use App\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Workflow\Registry;
 
 class WorkflowController extends AbstractController
 {
     /**
-     * @var PullRequestRepository
-     */
-    protected $pullRequestRepository;
-    
-    /**
      * WorkflowController constructor.
-     * @param PullRequestRepository $pullRequestRepository
      */
-    public function __construct(PullRequestRepository $pullRequestRepository)
+    public function __construct()
     {
-        $this->pullRequestRepository = $pullRequestRepository;
     }
     
     /**
@@ -35,12 +29,20 @@ class WorkflowController extends AbstractController
     
     /**
      * @Route("/workflow/incr", name="incr")
+     * @param Registry $registry
+     * @throws \Symfony\Component\Workflow\Exception\InvalidArgumentException
      */
-    public function incr()
+    public function incr(Registry $registry)
     {
-        dd(
-            $stateMachine = $this->container->has('workflow.registry')
-        );
-        return JsonResponse::create($this->pullRequestRepository->findAll());
+        $subject = new Post();
+        $subject->setCurrentPlace('draft');
+        $workflow = $registry->get($subject);
+        $workflow->apply($subject, 'to_review');
+//        if ($workflow->can($subject, 'reject')) {
+//            $workflow->apply($subject, 'reject');
+//        }
+        
+        dd($workflow->getEnabledTransitions($subject));
     }
+    
 }
