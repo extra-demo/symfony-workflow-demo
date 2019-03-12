@@ -26,3 +26,6 @@ framework:
         reject:
           from: review
           to:   rejected
+        我修改了之后就可以重新 review 了:
+          from: rejected
+          to: review

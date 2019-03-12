@@ -18,7 +18,57 @@ class PostRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Post::class);
     }
-
+    
+    /**
+     * @param string $title
+     * @param string $content
+     * @param string $draft
+     * @return Post
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function create(string $title, string $content, string $draft): Post
+    {
+        $subject = new Post();
+        $subject->setTitle("test");
+        $subject->setContent("content");
+        $subject->setCurrentPlace('draft');
+    
+        $this->getEntityManager()->persist($subject);
+        $this->getEntityManager()->flush();
+        
+        return $subject;
+    }
+    
+    /**
+     * @param Post|null $subject
+     * @param string    $place
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updatePlaces(?Post $subject, string $place)
+    {
+        $subject->setCurrentPlace($place);
+        $this->getEntityManager()->persist($subject);
+        $this->getEntityManager()->flush();
+    }
+    
+    /**
+     * @param $id
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\ORMInvalidArgumentException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function resetPlace($id)
+    {
+        $subject = $this->find($id);
+        $subject->setCurrentPlace('draft');
+        $this->getEntityManager()->persist($subject);
+        $this->getEntityManager()->flush();
+    }
+    
     // /**
     //  * @return Post[] Returns an array of Post objects
     //  */

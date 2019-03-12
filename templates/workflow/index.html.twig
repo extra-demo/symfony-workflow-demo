@@ -3,18 +3,44 @@
 {% block title %}Hello WorkflowController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h3>Actions</h3>
+    {% if workflow_can(post, 'publish') %}
+        <a href="{{ path('next', {'transition': 'publish'}) }}">Publish article</a>
+    {% endif %}
+    {% if workflow_can(post, 'to_review') %}
+        <a href="{{ path('next', {'transition': 'to_review'}) }}">Submit to review</a>
+    {% endif %}
+    {% if workflow_can(post, 'reject') %}
+        <a href="{{ path('next', {'transition': 'reject'}) }}">Reject article</a>
+    {% endif %}
+    {% if workflow_can(post, 'reject') %}
+        <a href="{{ path('next', {'transition': 'reject'}) }}">Reject article</a>
+    {% endif %}
+<hr>
+    {# Or loop through the enabled transitions #}
+    {% for transition in workflow_transitions(post) %}
+        {% if workflow_can(post, transition.name) %}
+            <a href="{{ path('next', {'transition': transition.name, 'id': id}) }}">Transition | << {{ transition.name }} >></a>
+            <br>
+        {% endif %}
+    {% else %}
+        我是已经发布，不能做任何事情了
+    {% endfor %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {# Check if the object is in some specific place #}
+    {% if workflow_has_marked_place(post, 'review') %}
+        <p>This post is ready for review.</p>
+    {% endif %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/zhangshaomin/code/php/my-project/src/Controller/WorkflowController.php'|file_link(0) }}">src/Controller/WorkflowController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/zhangshaomin/code/php/my-project/templates/workflow/index.html.twig'|file_link(0) }}">templates/workflow/index.html.twig</a></code></li>
-    </ul>
-</div>
+    {# Check if the object is in some specific place #}
+    {% if workflow_has_marked_place(post, 'rejected') %}
+        <p>This post is rejected. need to modify and resubmit</p>
+    {% endif %}
+
+    {# Check if some place has been marked on the object #}
+    {% if 'rejected' in workflow_marked_places(post) %}
+        <span class="label">PENDING</span>
+    {% endif %}
+<hr>
+    我能重置: <a href="{{ path('reset', {'id': id}) }}">点我</a>
 {% endblock %}
