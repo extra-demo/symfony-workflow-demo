@@ -3,14 +3,9 @@
 namespace App\Command;
 
 use App\Entity\Post;
-use App\Repository\PostRepository;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Workflow\Registry;
 
@@ -47,6 +42,8 @@ class GenerateSvgCommand extends Command
      * @return int|void|null
      * @throws \Symfony\Component\Process\Exception\LogicException
      * @throws \Symfony\Component\Process\Exception\RuntimeException
+     * @throws \Symfony\Component\Workflow\Exception\LogicException
+     * @throws \Symfony\Component\Workflow\Exception\InvalidArgumentException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -56,6 +53,9 @@ class GenerateSvgCommand extends Command
             'rejected',
             'published',
         ];
+        $subject = new Post();
+        $workflow = $this->registry->get($subject);
+        $data = $workflow->getDefinition()->getPlaces();
         /** @var Post $post */
         foreach ($data as $place) {
             $process = Process::fromShellCommandline("php bin/console workflow:dump blog_publishing {$place} | dot -Tsvg -o public/graph-{$place}.svg");
