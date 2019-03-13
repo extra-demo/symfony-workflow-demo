@@ -4,19 +4,19 @@
 
 {% block body %}
     <h3>Actions</h3>
-    {% if workflow_can(post, 'publish') %}
-        <a href="{{ path('next', {'transition': 'publish'}) }}">Publish article</a>
-    {% endif %}
-    {% if workflow_can(post, 'to_review') %}
-        <a href="{{ path('next', {'transition': 'to_review'}) }}">Submit to review</a>
-    {% endif %}
-    {% if workflow_can(post, 'reject') %}
-        <a href="{{ path('next', {'transition': 'reject'}) }}">Reject article</a>
-    {% endif %}
-    {% if workflow_can(post, 'reject') %}
-        <a href="{{ path('next', {'transition': 'reject'}) }}">Reject article</a>
-    {% endif %}
-    <hr>
+    {#{% if workflow_can(post, 'publish') %}#}
+        {#<a href="{{ path('next', {'transition': 'publish'}) }}">Publish article</a>#}
+    {#{% endif %}#}
+    {#{% if workflow_can(post, 'to_review') %}#}
+        {#<a href="{{ path('next', {'transition': 'to_review'}) }}">Submit to review</a>#}
+    {#{% endif %}#}
+    {#{% if workflow_can(post, 'reject') %}#}
+        {#<a href="{{ path('next', {'transition': 'reject'}) }}">Reject article</a>#}
+    {#{% endif %}#}
+    {#{% if workflow_can(post, 'reject') %}#}
+        {#<a href="{{ path('next', {'transition': 'reject'}) }}">Reject article</a>#}
+    {#{% endif %}#}
+    {#<hr>#}
     {# Or loop through the enabled transitions #}
     {% for transition in workflow_transitions(post) %}
         {% if workflow_can(post, transition.name) %}
