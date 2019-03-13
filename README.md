@@ -24,3 +24,10 @@ php ./bin/console server:start
 表示已经启动成功，在浏览器中打开地址即可。
 
 
+## 工作流自定义
+
+如果想自定义工作流，可以编辑 `config/packages/workflow.yaml`，中的 `places` 和 `transitions`。
+
+### place: 流程状态
+
+### transition: 状态流转操作
