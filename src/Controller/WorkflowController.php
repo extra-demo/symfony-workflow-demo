@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Workflow\Exception\UndefinedTransitionException;
 use Symfony\Component\Workflow\Registry;
+use Symfony\Component\Workflow\Workflow;
 
 class WorkflowController extends AbstractController
 {
@@ -96,9 +97,12 @@ class WorkflowController extends AbstractController
     
     /**
      * @Route("/image", name="image")
+     * @throws \LogicException
      */
-    public function showImage()
+    public function showImage(Request $request)
     {
-    
+        return $this->render('workflow/image.html.twig', [
+            'id' => $request->get('id'),
+        ]);
     }
 }

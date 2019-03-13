@@ -16,11 +16,12 @@
     {% if workflow_can(post, 'reject') %}
         <a href="{{ path('next', {'transition': 'reject'}) }}">Reject article</a>
     {% endif %}
-<hr>
+    <hr>
     {# Or loop through the enabled transitions #}
     {% for transition in workflow_transitions(post) %}
         {% if workflow_can(post, transition.name) %}
-            <a href="{{ path('next', {'transition': transition.name, 'id': id}) }}">Transition | << {{ transition.name }} >></a>
+            <a href="{{ path('next', {'transition': transition.name, 'id': id}) }}">Transition |
+                << {{ transition.name }} >></a>
             <br>
         {% endif %}
     {% else %}
@@ -36,11 +37,10 @@
     {% if workflow_has_marked_place(post, 'rejected') %}
         <p>This post is rejected. need to modify and resubmit</p>
     {% endif %}
-
-    {# Check if some place has been marked on the object #}
-    {% if 'rejected' in workflow_marked_places(post) %}
-        <span class="label">PENDING</span>
-    {% endif %}
-<hr>
-    我能重置: <a href="{{ path('reset', {'id': id}) }}">点我</a> | 我想看一下图： <a href="{{ path('image', {'id': id}) }}">看图</a>
+    <hr>
+    我能重置: <a href="{{ path('reset', {'id': id}) }}">点我</a>
+    <hr>
+    {% for place in workflow_marked_places(post) %}
+        <img src="graph-{{ place }}.svg" alt="">
+    {% endfor %}
 {% endblock %}
