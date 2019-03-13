@@ -31,3 +31,5 @@ php ./bin/console server:start
 ### place: 流程状态
 
 ### transition: 状态流转操作
+
+如果更新了工作流之后，需要执行 `php ./bin/console generateSvg` 生成对应的流程图。 这个依赖 `graphviz` 类库。
