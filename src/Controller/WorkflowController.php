@@ -31,6 +31,15 @@ class WorkflowController extends AbstractController
     }
     
     /**
+     * @Route("/", name="home")
+     * @return RedirectResponse
+     */
+    public function home()
+    {
+        return $this->redirect('/workflow?id=1');
+    }
+    
+    /**
      * @Route("/workflow", name="workflow")
      * @throws \LogicException
      * @throws \Doctrine\ORM\ORMException
