@@ -93,4 +93,12 @@ class WorkflowController extends AbstractController
         $this->postRepository->resetPlace($id);
         return RedirectResponse::create('/workflow?id=' . $id);
     }
+    
+    /**
+     * @Route("/image", name="image")
+     */
+    public function showImage()
+    {
+    
+    }
 }
