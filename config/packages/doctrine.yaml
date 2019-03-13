@@ -9,7 +9,7 @@ doctrine:
     dbal:
         # configure these for your database server
         driver: 'pdo_sqlite'
-        path: '%kernel.project_dir%/var/data/data.sqlite'
+        path: '%kernel.project_dir%/db/data.sqlite'
         charset: utf8mb4
         default_table_options:
             charset: utf8mb4
