@@ -123,8 +123,14 @@
     "nikic/php-parser": {
         "version": "v4.2.1"
     },
+    "ocramius/package-versions": {
+        "version": "1.4.2"
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
+    },
+    "php": {
+        "version": "7.1"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -337,6 +343,9 @@
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.10.0"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.15.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"
